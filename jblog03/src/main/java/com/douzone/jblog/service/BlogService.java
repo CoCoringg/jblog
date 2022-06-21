@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.douzone.jblog.repository.BlogRepository;
 import com.douzone.jblog.vo.BlogVo;
 import com.douzone.jblog.vo.CategoryVo;
+import com.douzone.jblog.vo.PostVo;
 
 @Service
 public class BlogService {
@@ -31,5 +32,27 @@ public class BlogService {
 		
 		return map;
 	}
+
+	public boolean updateBasic(BlogVo blogVo) {
+		return blogRepository.updateBasic(blogVo);
+	}
+
+	public List<CategoryVo> findByCategory(String id) {
+		return blogRepository.findByCategory(id);
+	}
+
+	public boolean write(PostVo postVo) {
+		return blogRepository.write(postVo);
+	}
+
+	public List<CategoryVo> findByCategoryAndPost(String id) {
+		return blogRepository.findByCategoryandPost(id);
+	}
+
+	public boolean categoryAdd(CategoryVo categoryVo) {
+		return blogRepository.categoryAdd(categoryVo);
+	}
+
+	
 
 }

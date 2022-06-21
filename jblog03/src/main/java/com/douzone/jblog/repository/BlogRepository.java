@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.douzone.jblog.vo.BlogVo;
 import com.douzone.jblog.vo.CategoryVo;
+import com.douzone.jblog.vo.PostVo;
 import com.douzone.jblog.vo.UserVo;
 
 @Repository
@@ -33,6 +34,26 @@ public class BlogRepository {
 
 	public List<CategoryVo> findByCategory(String id) {
 		return sqlSession.selectList("blog.findByCategory", id);
+	}
+
+	public boolean updateBasic(BlogVo blogVo) {
+		return sqlSession.update("blog.updateBasic", blogVo)==1;
+	}
+
+	public boolean write(PostVo postvo) {
+		return sqlSession.insert("blog.write", postvo)==1;
+	}
+
+	public List<PostVo> findByPost(PostVo postVo) {
+		return sqlSession.selectList("blog.findByPost", postVo);
+	}
+
+	public List<CategoryVo> findByCategoryandPost(String id) {
+		return sqlSession.selectList("blog.findByCategoryAndPost", id);
+	}
+
+	public boolean categoryAdd(CategoryVo categoryVo) {
+		return sqlSession.insert("blog.categoryAdd", categoryVo)==1;
 	}
 
 
