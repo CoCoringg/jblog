@@ -54,7 +54,7 @@ public class BlogController {
 		return "blog/blog-main";
 	}
 	
-	@RequestMapping("/admin/basic") 
+	@RequestMapping(value="/admin/basic", method=RequestMethod.GET) 
 	public String basic() {
 		return "blog/blog-admin-basic";
 	}
