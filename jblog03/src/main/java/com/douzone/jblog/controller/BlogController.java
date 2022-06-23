@@ -40,22 +40,25 @@ public class BlogController {
 			@PathVariable("pathNo1") Optional<Long> pathNo1, 
 			@PathVariable("pathNo2") Optional<Long> pathNo2, 
 			Model model ) {
+		long categoryNo = 0L;
+		long postNo = 0L;
 		
-//		long categoryNo = 0L;
-//		long postNo = 0L;
-//		
-//		if(pathNo2.isPresent()) {
-//			postNo = pathNo2;
-//			pathNo1 = pat
-//		} 
-		
-		Map<String, Object> map = blogService.findByBlog(id);
+		if(pathNo2.isPresent()) {
+			postNo = pathNo2.get();
+			categoryNo = pathNo1.get();
+		} else if(pathNo1.isPresent()) {
+			categoryNo = pathNo1.get();
+		}
+		Map<String, Object> map = blogService.findByMain(id, categoryNo, postNo);
 		model.addAllAttributes(map);
+		model.addAttribute("categoryIndex", categoryNo);
 		return "blog/blog-main";
 	}
 	
 	@RequestMapping(value="/admin/basic", method=RequestMethod.GET) 
-	public String basic() {
+	public String basic(@PathVariable("id") String id, Model model) {
+		BlogVo blogVo = blogService.findByBlog(id);
+		model.addAttribute("blogVo", blogVo);
 		return "blog/blog-admin-basic";
 	}
 	
@@ -82,6 +85,9 @@ public class BlogController {
 		List<CategoryVo> categoryList = blogService.findByCategory(id);
 		model.addAttribute("categoryList", categoryList);
 		
+		BlogVo blogVo = blogService.findByBlog(id);
+		model.addAttribute("blogVo", blogVo);
+		
 		return "blog/blog-admin-write";
 	}
 	
@@ -99,6 +105,10 @@ public class BlogController {
 	public String category(@PathVariable("id") String id, Model model) {
 		List<CategoryVo> categoryList = blogService.findByCategoryAndPost(id);
 		model.addAttribute("categoryList", categoryList);
+		
+		BlogVo blogVo = blogService.findByBlog(id);
+		model.addAttribute("blogVo", blogVo);
+		
 		return "blog/blog-admin-category";
 	}
 	
@@ -109,4 +119,10 @@ public class BlogController {
 		return "redirect:/"+id+"/admin/category";
 	}
 	
+	@RequestMapping(value="admin/category/delete/{categoryNo}", method=RequestMethod.GET)
+	public String categoryDelete(@PathVariable("id") String id, 
+			@PathVariable("categoryNo") long categoryNo, Model model) {
+		blogService.categoryDelete(categoryNo);
+		return "redirect:/"+id+"/admin/category";
+	}
 }

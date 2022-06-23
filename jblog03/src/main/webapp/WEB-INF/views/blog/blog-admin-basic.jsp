@@ -12,7 +12,6 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>${blog.title }</h1>
 			<c:import url="/WEB-INF/views/includes/admin-header.jsp"></c:import>
 		</div>
 		<div id="wrapper">
@@ -45,9 +44,7 @@
 			</div>
 		</div>
 		<div id="footer">
-			<p>
-				<strong>${blogVo.title }</strong> is powered by JBlog (c)2022
-			</p>
+			<c:import url="/WEB-INF/views/includes/blog-footer.jsp"></c:import>
 		</div>
 	</div>
 </body>

@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<h1>${blogVo.title }</h1>
 	<ul>
 		<c:choose>
 			<c:when test="${not empty authUser && id == authUser.id}">

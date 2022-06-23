@@ -44,17 +44,26 @@ public class BlogRepository {
 		return sqlSession.insert("blog.write", postvo)==1;
 	}
 
-	public List<PostVo> findByPost(PostVo postVo) {
-		return sqlSession.selectList("blog.findByPost", postVo);
-	}
-
 	public List<CategoryVo> findByCategoryandPost(String id) {
 		return sqlSession.selectList("blog.findByCategoryAndPost", id);
+	}
+	
+	public CategoryVo findByCategoryOne(long categoryNo) {
+		return sqlSession.selectOne("blog.findByCategoryOne", categoryNo);
 	}
 
 	public boolean categoryAdd(CategoryVo categoryVo) {
 		return sqlSession.insert("blog.categoryAdd", categoryVo)==1;
 	}
+
+	public boolean categoryDelete(long categoryNo) {
+		return sqlSession.delete("blog.categoryDelete", categoryNo)==1;
+	}
+
+	public List<PostVo> findByPostList(CategoryVo categoryVo) {
+		return sqlSession.selectList("blog.findByPostList", categoryVo);
+	}
+
 
 
 }

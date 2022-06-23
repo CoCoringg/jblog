@@ -12,7 +12,6 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Spring 이야기</h1>
 			<c:import url="/WEB-INF/views/includes/admin-header.jsp"></c:import>
 		</div>
 		<div id="wrapper">
@@ -31,15 +30,19 @@
 		      			<th>삭제</th>      			
 		      		</tr>
 		      		<c:set var='count' value='${fn:length(categoryList) }' />
-		      		<c:forEach items="${categoryList }" var="categoryVo" varStatus='status'>
-		      			<tr>
-						<td>${count-status.index }</td>
-						<td>${categoryVo.name }</td>
-						<td>${categoryVo.postCount }</td>
-						<td>${categoryVo.description }</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr> 
-		      		</c:forEach>
+					<c:forEach items="${categoryList }" var="categoryVo"
+						varStatus='status'>
+						<tr>
+							<td>${count-status.index }</td>
+							<td>${categoryVo.name }</td>
+							<td>${categoryVo.postCount }</td>
+							<td>${categoryVo.description }</td>
+							<td><a
+								href="${pageContext.request.contextPath }/${authUser.id }/admin/category/delete/${categoryVo.no }"
+								class="del"><img
+								src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a></td>
+						</tr>
+					</c:forEach>
 				</table>
       	
       			<h4 class="n-c">새로운 카테고리 추가</h4>
@@ -62,9 +65,7 @@
 			</div>
 		</div>
 		<div id="footer">
-			<p>
-				<strong>${blogVo.title }</strong> is powered by JBlog (c)2022
-			</p>
+			<c:import url="/WEB-INF/views/includes/blog-footer.jsp"></c:import>
 		</div>
 	</div>
 </body>

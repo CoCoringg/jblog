@@ -21,16 +21,23 @@ public class BlogService {
 		return blogRepository.findById(id);
 	}
 
-	public Map<String, Object> findByBlog(String id) {
+	public Map<String, Object> findByMain(String id, long categoryNo, long postNo) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		BlogVo blogVo = blogRepository.findById(id);
 		List<CategoryVo> categoryList = blogRepository.findByCategory(id);
-		
+		List<PostVo> postList = blogRepository.findByPostList(categoryList.get((int) categoryNo));
+		PostVo postVo = postList.get(postList.size()-((int) postNo+1));
 		map.put("blogVo", blogVo);
 		map.put("categoryList", categoryList);
+		map.put("postList", postList);
+		map.put("post", postVo);
 		
 		return map;
+	}
+	
+	public BlogVo findByBlog(String id) {
+		return blogRepository.findById(id);
 	}
 
 	public boolean updateBasic(BlogVo blogVo) {
@@ -52,6 +59,22 @@ public class BlogService {
 	public boolean categoryAdd(CategoryVo categoryVo) {
 		return blogRepository.categoryAdd(categoryVo);
 	}
+
+	public boolean categoryDelete(long categoryNo) {
+		CategoryVo categoryVo = blogRepository.findByCategoryOne(categoryNo);
+		List<CategoryVo> categoryList = blogRepository.findByCategory(categoryVo.getBlogId());
+		
+		if(categoryList.size() == 1) {
+			return false;
+		} else if(categoryVo.getPostCount() > 0) {
+			return false;
+		}
+		
+		return blogRepository.categoryDelete(categoryNo);
+		
+	}
+
+	
 
 	
 
