@@ -33,6 +33,13 @@
 			<bean class="com.douzone.jblog.security.LogoutInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
+			<mvc:mapping path="/{id}/admin/**" />
+			<mvc:exclude-mapping path="/assets/**"/>
+			<mvc:exclude-mapping path="/user/auth"/>
+			<mvc:exclude-mapping path="/user/logout"/>
+			<bean class="com.douzone.jblog.security.AuthInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
 			<mvc:mapping path="/{id}/admin/basic" />
 			<mvc:exclude-mapping path="/assets/**"/>
 			<mvc:exclude-mapping path="/user/auth"/>

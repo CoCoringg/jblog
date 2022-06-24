@@ -43,7 +43,14 @@ pageContext.setAttribute("newLine", "\n");
 			<h2>카테고리</h2>
 			<ul>
 				<c:forEach items="${categoryList }" var="categoryVo" varStatus='status'>
-					<li><a href="${pageContext.request.contextPath}/${blogVo.id }/${status.index }">${categoryVo.name }</a></li>
+					<c:choose>
+						<c:when test="${categoryVo.postCount == 0}">
+							<li><a>${categoryVo.name }</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="${pageContext.request.contextPath}/${blogVo.id }/${status.index }">${categoryVo.name }</a></li>
+						</c:otherwise>
+					</c:choose>
 				</c:forEach>
 			</ul>
 		</div>
