@@ -65,9 +65,6 @@ public class BlogController {
 	@Auth
 	@RequestMapping(value="/admin/basic", method=RequestMethod.GET) 
 	public String basic(@PathVariable("id") String id, Model model) {
-		BlogVo blogVo = blogService.findByBlog(id);
-		model.addAttribute("blogVo", blogVo);
-		
 		return "blog/blog-admin-basic";
 	}
 	
@@ -98,9 +95,6 @@ public class BlogController {
 		List<CategoryVo> categoryList = blogService.findByCategory(id);
 		model.addAttribute("categoryList", categoryList);
 		
-		BlogVo blogVo = blogService.findByBlog(id);
-		model.addAttribute("blogVo", blogVo);
-		
 		return "blog/blog-admin-write";
 	}
 	
@@ -111,14 +105,19 @@ public class BlogController {
 			@RequestParam(value="category") String category, Model model) {
 		if(result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
-			return "redirect:/"+id+"/admin/write";
+			return "blog/blog-admin-write";
 		}
-		System.out.println(category);
 		// 포스트 하기
-		postVo.setCategoryNo(Long.parseLong(category));
+		postVo.setCategoryNo(Long.parseLong(category)+1);
 		blogService.write(postVo);
 		
-		return "redirect:/"+id;
+		// 새 포스트 찾아오기
+		String postId = blogService.findByPost(category);
+		if (postId == null) {
+			return "redirect:/"+id+"/"+category+"/0";
+		}
+		
+		return "redirect:/"+id+"/"+category+"/"+postId;
 	}
 	
 	@Auth
@@ -126,12 +125,6 @@ public class BlogController {
 	public String category(@PathVariable("id") String id, 
 			@ModelAttribute CategoryVo categoryVo,
 			Model model) {
-		List<CategoryVo> categoryList = blogService.findByCategoryAndPost(id);
-		model.addAttribute("categoryList", categoryList);
-		
-		BlogVo blogVo = blogService.findByBlog(id);
-		model.addAttribute("blogVo", blogVo);
-		
 		return "blog/blog-admin-category";
 	}
 	
@@ -141,7 +134,7 @@ public class BlogController {
 			@ModelAttribute @Valid CategoryVo categoryVo, BindingResult result, Model model) {
 		if(result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
-			return "redirect:/"+id+"/admin/category";
+			return "blog/blog-admin-category";
 		}
 		
 		categoryVo.setBlogId(id);

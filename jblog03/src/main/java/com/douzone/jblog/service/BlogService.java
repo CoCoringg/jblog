@@ -23,11 +23,14 @@ public class BlogService {
 
 	public Map<String, Object> findByMain(String id, long categoryNo, long postNo) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+		PostVo postVo = new PostVo();
 		BlogVo blogVo = blogRepository.findById(id);
 		List<CategoryVo> categoryList = blogRepository.findByCategory(id);
 		List<PostVo> postList = blogRepository.findByPostList(categoryList.get((int) categoryNo));
-		PostVo postVo = postList.get(postList.size()-((int) postNo+1));
+		if(postList.size() != 0) {
+			postVo = postList.get(postList.size()-((int) postNo+1));
+		}
+		
 		map.put("blogVo", blogVo);
 		map.put("categoryList", categoryList);
 		map.put("postList", postList);
@@ -74,8 +77,14 @@ public class BlogService {
 		
 	}
 
-	
-
-	
+	public String findByPost(String category) {
+		List<PostVo> postList = blogRepository.findByPostList(Long.parseLong(category));
+		if(postList.size() == 0) {
+			return null;
+		}
+		long newPostNo = postList.size()-1;
+		
+		return String.valueOf(newPostNo);
+	}
 
 }

@@ -1,18 +1,27 @@
 package com.douzone.jblog.security;
 
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
+import com.douzone.jblog.service.BlogService;
+import com.douzone.jblog.vo.BlogVo;
+import com.douzone.jblog.vo.CategoryVo;
 import com.douzone.jblog.vo.UserVo;
 
 public class AuthInterceptor implements HandlerInterceptor {
+	
+	@Autowired
+	private BlogService blogService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -57,6 +66,17 @@ public class AuthInterceptor implements HandlerInterceptor {
 			response.sendRedirect(request.getContextPath()+ "/" +blogId);
 			return false;
 		}
+		
+		ServletContext sc = request.getServletContext();
+
+		BlogVo blogVo = blogService.findById(authUser.getId());
+		List<CategoryVo> categoryList = blogService.findByCategoryAndPost(authUser.getId());
+		
+		List<CategoryVo> categorySelect = blogService.findByCategory(authUser.getId());
+		
+		sc.setAttribute("blog", blogVo);
+		sc.setAttribute("categoryList", categoryList);
+		sc.setAttribute("categorySelect", categorySelect);
 		
 		return true;
 	}

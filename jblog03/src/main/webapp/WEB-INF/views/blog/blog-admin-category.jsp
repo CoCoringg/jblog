@@ -55,11 +55,17 @@
 			      	<table id="admin-cat-add">
 			      		<tr>
 			      			<td class="t">카테고리명</td>
-			      			<td><form:input path="name" /></td>
+			      			<td>
+			      				<form:input path="name" />
+			      				<p style="color:red;"><form:errors path="name" /></p>
+			      			</td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">설명</td>
-			      			<td><form:input path="description" /></td>
+			      			<td>
+			      				<form:input path="description" />
+			      				<p style="color:red;"><form:errors path="description" /></p>
+			      			</td>
 			      		</tr>
 			      		<tr>
 			      			<td class="s">&nbsp;</td>

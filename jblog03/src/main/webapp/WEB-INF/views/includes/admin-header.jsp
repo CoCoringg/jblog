@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>${blogVo.title }</h1>
+	<h1>${blog.title }</h1>
 	<ul>
 		<c:choose>
 			<c:when test="${empty authUser }">

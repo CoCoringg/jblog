@@ -33,15 +33,19 @@
 			      			<td>
 			      				<form:input type="text" size="60" path="title" />
 				      			<select name="category">
-				      				<c:forEach items="${categoryList }" var="categoryVo">
-				      					<option value="${categoryVo.no }">${categoryVo.name }</option>
+				      				<c:forEach items="${categorySelect }" var="categoryVo" varStatus='status'>
+				      					<option value="${status.index }">${categoryVo.name }</option>
 				      				</c:forEach>
 				      			</select>
+				      			<p style="color:red;"><form:errors path="title" /></p>
 				      		</td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">내용</td>
-			      			<td><form:textarea path="contents" /></td>
+			      			<td>
+			      				<form:textarea path="contents" />
+			      				<p style="color:red;"><form:errors path="contents" /></p>
+			      			</td>
 			      		</tr>
 			      		<tr>
 			      			<td>&nbsp;</td>

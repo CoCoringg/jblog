@@ -20,10 +20,18 @@ pageContext.setAttribute("newLine", "\n");
 		<div id="wrapper">
 			<div id="content">
 				<div class="blog-content">
-					<h4>${post.title }</h4>
-					<p>
-						${fn:replace(post.contents, newLine, "<br/>") }
-					<p>
+					<c:choose>
+						<c:when test="${post.title == null }">
+							<h4>게시물이 없습니다.</h4>
+							<p>게시물이 없습니다.</p>
+						</c:when>
+						<c:otherwise>
+							<h4>${post.title }</h4>
+							<p>
+								${fn:replace(post.contents, newLine, "<br/>") }
+							<p>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<ul class="blog-list">
 					<c:forEach items="${postList }" var="post" varStatus='status'>
@@ -43,14 +51,7 @@ pageContext.setAttribute("newLine", "\n");
 			<h2>카테고리</h2>
 			<ul>
 				<c:forEach items="${categoryList }" var="categoryVo" varStatus='status'>
-					<c:choose>
-						<c:when test="${categoryVo.postCount == 0}">
-							<li><a>${categoryVo.name }</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a href="${pageContext.request.contextPath}/${blogVo.id }/${status.index }">${categoryVo.name }</a></li>
-						</c:otherwise>
-					</c:choose>
+					<li><a href="${pageContext.request.contextPath}/${blogVo.id }/${status.index }">${categoryVo.name }</a></li>
 				</c:forEach>
 			</ul>
 		</div>

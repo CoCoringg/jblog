@@ -11,7 +11,7 @@
 </head>
 <body>
 	<p>
-		<strong>${blogVo.title }</strong> is powered by JBlog (c)2022
+		<strong>${blog.title }</strong> is powered by JBlog (c)2022
 	</p>
 </body>
 </html>
