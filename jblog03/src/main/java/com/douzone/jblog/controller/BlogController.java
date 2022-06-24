@@ -108,16 +108,13 @@ public class BlogController {
 			return "blog/blog-admin-write";
 		}
 		// 포스트 하기
-		postVo.setCategoryNo(Long.parseLong(category)+1);
+		postVo.setCategoryNo(Long.parseLong(category));
 		blogService.write(postVo);
 		
-		// 새 포스트 찾아오기
-		String postId = blogService.findByPost(category);
-		if (postId == null) {
-			return "redirect:/"+id+"/"+category+"/0";
-		}
+		// 카테고리 찾아오기
+		Map<String, Object> map = blogService.findByNewPost(id, category);
 		
-		return "redirect:/"+id+"/"+category+"/"+postId;
+		return "redirect:/"+id+"/"+map.get("categoryNo")+"/"+map.get("postNo");
 	}
 	
 	@Auth

@@ -33,8 +33,8 @@
 			      			<td>
 			      				<form:input type="text" size="60" path="title" />
 				      			<select name="category">
-				      				<c:forEach items="${categorySelect }" var="categoryVo" varStatus='status'>
-				      					<option value="${status.index }">${categoryVo.name }</option>
+				      				<c:forEach items="${categorySelect }" var="categoryVo">
+				      					<option value="${categoryVo.no }">${categoryVo.name }</option>
 				      				</c:forEach>
 				      			</select>
 				      			<p style="color:red;"><form:errors path="title" /></p>

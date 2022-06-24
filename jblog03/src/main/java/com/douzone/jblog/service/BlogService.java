@@ -87,4 +87,23 @@ public class BlogService {
 		return String.valueOf(newPostNo);
 	}
 
+	public Map<String, Object> findByNewPost(String id, String category) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 카테고리 리스트 중 인덱스 찾아내기
+		List<String> categoryList = blogRepository.findByCategoryNo(id);
+		map.put("categoryNo", categoryList.indexOf(category));
+		
+		// 포스트 리스트 중 인덱스 찾아내기
+		// 새 포스트 찾아오기
+		String postId = findByPost(category);
+		if (postId == null) {
+			map.put("postNo", "0");
+			return map;
+		}
+		
+		map.put("postNo", postId);
+		return map;
+	}
+
 }

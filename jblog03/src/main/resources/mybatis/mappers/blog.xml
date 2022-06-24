@@ -77,7 +77,7 @@
 			select b.no, b.title, b.contents, b.category_no
 				from category a, post b
 				 where a.no = b.category_no
-				and a.no = #{no };
+				and a.no = #{no } order by b.no desc
 		]]>
 	</select>
 	
@@ -86,7 +86,13 @@
 			select b.no, b.title, b.contents, b.category_no
 				from category a, post b
 				 where a.no = b.category_no
-				and a.no = #{no };
+				and a.no = #{no } 
+		]]>
+	</select>
+	
+	<select id="findByCategoryNo" parameterType="string" resultType="string">
+		<![CDATA[
+			select no from category where blog_id = #{id }
 		]]>
 	</select>
 	

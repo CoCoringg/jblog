@@ -66,4 +66,8 @@ public class BlogRepository {
 
 	public List<PostVo> findByPostList(long categoryNo) {
 		return sqlSession.selectList("blog.findByPostNo", categoryNo);
+	}
+
+	public List<String> findByCategoryNo(String id) {
+		return sqlSession.selectList("blog.findByCategoryNo", id);
 	}}
