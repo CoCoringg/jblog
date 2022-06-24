@@ -14,5 +14,11 @@
 			select id, name, password from user where id = #{id } and password = #{password }
 		]]>
 	</select>
+	
+	<select id="findAllUser" resultType="string">
+		<![CDATA[
+			select id from user
+		]]>
+	</select>
 
 </mapper>

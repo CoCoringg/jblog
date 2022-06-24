@@ -44,6 +44,13 @@
 			<mvc:exclude-mapping path="/assets/**"/>
 			<mvc:exclude-mapping path="/user/auth"/>
 			<mvc:exclude-mapping path="/user/logout"/>
+			<bean class="com.douzone.jblog.interceptor.BlogAdminInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/{id}" />
+			<mvc:exclude-mapping path="/assets/**"/>
+			<mvc:exclude-mapping path="/user/auth"/>
+			<mvc:exclude-mapping path="/user/logout"/>
 			<bean class="com.douzone.jblog.interceptor.BlogInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

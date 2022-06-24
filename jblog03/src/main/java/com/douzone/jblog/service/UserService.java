@@ -1,5 +1,7 @@
 package com.douzone.jblog.service;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,10 @@ public class UserService {
 		vo.setPassword(password);
 		
 		return getUser(vo);
+	}
+
+	public List<String> findAllUser() {
+		return userRepository.findAllUser();
 	}
 
 	

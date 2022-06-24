@@ -1,5 +1,7 @@
 package com.douzone.jblog.repository;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.ibatis.session.SqlSession;
@@ -22,6 +24,10 @@ public class UserRepository {
 
 	public UserVo findByIdAndPassword(UserVo userVo) {
 		return sqlSession.selectOne("user.findByIdAndPassword", userVo);
+	}
+
+	public List<String> findAllUser() {
+		return sqlSession.selectList("user.findAllUser");
 	}
 	
 	
