@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="blog">
+
+	<insert id="insert" parameterType="uservo">
+		<![CDATA[ 
+			insert into blog values (#{id }, concat(#{name },"님의 블로그"), "/assets/images/spring-logo.jpg")
+		]]>
+	</insert>
+	
+	<insert id="categoryInsert" parameterType="string">
+		<![CDATA[ 
+			insert into category values (null, "블로그 시작하기", "카테고리를 생성해주세요", #{blogId })
+		]]>
+	</insert>
+	
+	<select id="findById" parameterType="string" resultType="blogvo" >
+		<![CDATA[
+			select id, title, logo from blog where id=#{id }
+		]]>
+	</select>
+	
+	<select id="findByCategory" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+			select no, name, description, blog_id,
+				(select count(*) from post b where a.no = b.category_no) as postCount
+			  from category a where blog_id = #{id }
+		]]>
+	</select>
+	
+	<update id="updateBasic" parameterType="blogvo">
+		<![CDATA[
+			update blog set title = #{title }, logo = #{logo } where id = #{id }
+		]]>
+	</update>
+	
+	<insert id="write" parameterType="postvo">
+		<![CDATA[
+			insert into post values (null, #{title }, #{contents }, #{categoryNo })
+		]]>
+	</insert>
+	
+	<select id="findByCategoryAndPost"  parameterType="string" resultType="categoryvo">
+		<![CDATA[
+			select a.no, a.name, a.description, 
+				(select count(*) from post b where a.no = b.category_no) as postCount
+			from category a
+   	 		 where a.blog_id = #{blogId }
+   	 		order by a.no desc
+		]]>
+	</select>
+	
+	<select id="findByCategoryOne"  parameterType="long" resultType="categoryvo">
+		<![CDATA[
+			select a.no, a.name, a.description, a.blog_id,
+				(select count(*) from post b where a.no = b.category_no) as postCount
+			from category a
+   	 		 where a.no = #{categoryNo }
+		]]>
+	</select>
+	
+	<insert id="categoryAdd" parameterType="categoryvo">
+		<![CDATA[
+			insert into category values (null, #{name }, #{description }, #{blogId })
+		]]>
+	</insert>
+	
+	<delete id="categoryDelete" parameterType="long">
+		<![CDATA[
+			delete from category where no = #{categoryNo }
+		]]>
+	</delete>
+	
+	<select id="findByPostList" parameterType="categoryvo" resultType="postvo">
+		<![CDATA[
+			select b.no, b.title, b.contents, b.category_no
+				from category a, post b
+				 where a.no = b.category_no
+				and a.no = #{no } order by b.no desc
+		]]>
+	</select>
+	
+	<select id="findByPostNo" parameterType="long" resultType="postvo">
+		<![CDATA[
+			select b.no, b.title, b.contents, b.category_no
+				from category a, post b
+				 where a.no = b.category_no
+				and a.no = #{no } 
+		]]>
+	</select>
+	
+	<select id="findByCategoryNo" parameterType="string" resultType="string">
+		<![CDATA[
+			select no from category where blog_id = #{id }
+		]]>
+	</select>
+	
+</mapper>
